@@ -1,1 +1,1 @@
-https://github.com/garora/TDD-Katas
+http://codekata.com/
