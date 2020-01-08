@@ -1,0 +1,28 @@
+FizzBuzz kata - introduction to TDD
+http://codingdojo.org/kata/FizzBuzz/
+
+For numbers 1 through 100,
+
+Stage 1:
+	1. if the number is divisible by 3 print Fizz;
+	2. if the number is divisible by 5 print Buzz;
+	3. if the number is divisible by 3 and 5 (15) print FizzBuzz;
+	   else, print the number.
+
+Stage 2:
+	4. A number is fizz if it is divisible by 3 or if it has a 3 in it
+	5. A number is buzz if it is divisible by 5 or if it has a 5 in it
+
+HOME work: try to implement Enterprise version of FizzBuzz.
+1. Create common interface for rules (1-5).
+2. Move each rule (1-5) to separate class.
+3. Invoke rules in main class in correct order.
+4. Write tests for Enterprise version of FizzBuzz.
+
+Write tests first!
+
+http://codingdojo.org/CodingDojo/
+
+http://codingdojo.org/BabySteps/
+http://codingdojo.org/RhythmOfTestFirst/
+http://codingdojo.org/TestDrivenDevelopment/

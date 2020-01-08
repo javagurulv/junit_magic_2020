@@ -1,0 +1,14 @@
+Write tests and implementation code
+for TaxCalculator using JUnit framework.
+
+TaxCalculator
+
+"Email" rule:
+4) Send email to VID, when income is more then 100000.
+Think about exceptions and how to test it.
+
+
+Write tests first!
+Tests should drive implementation!
+Use Test Driven Development (TDD) approach!
+After all refactor your production code and tests!
