@@ -40,6 +40,14 @@ public class TaxCalculatorImplTest {
         checkResult(0.0, 2000, 0.0);
     }
 
+    @Test(expected = RuntimeException.class)
+    public void throwException() {
+        Mockito.when(taxRateProvider.getTaxRate(2000))
+                .thenThrow(new RuntimeException());
+
+        calculator.calculateTax(200000, 2000);
+    }
+
     private void checkResult(double income,
                              int year,
                              double expectedTax) {
