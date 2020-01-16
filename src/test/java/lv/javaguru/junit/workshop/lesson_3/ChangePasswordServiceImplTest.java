@@ -1,6 +1,7 @@
 package lv.javaguru.junit.workshop.lesson_3;
 
 import com.google.common.collect.Lists;
+import lv.javaguru.junit.workshop.lesson_3.validation.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -18,7 +19,14 @@ public class ChangePasswordServiceImplTest {
     @Before
     public void setup() {
         userPasswordRepository = Mockito.mock(UserPasswordRepository.class);
-        service = new ChangePasswordServiceImpl(userPasswordRepository);
+
+        List<ValidationRule> validationRules = new ArrayList<>();
+        validationRules.add(new LengthValidationRule());
+        validationRules.add(new ContainsLettersValidationRule());
+        validationRules.add(new ContainsNumbersValidationRule());
+        validationRules.add(new OldPasswordValidationRule(userPasswordRepository));
+
+        service = new ChangePasswordServiceImpl(validationRules);
     }
 
     @Test

@@ -1,42 +1,27 @@
 package lv.javaguru.junit.workshop.lesson_3;
 
+import lv.javaguru.junit.workshop.lesson_3.validation.ValidationRule;
+
 import java.util.List;
+import java.util.Optional;
 
 public class ChangePasswordServiceImpl implements ChangePasswordService {
 
-    private UserPasswordRepository userPasswordRepository;
+    private List<ValidationRule> validationRules;
 
-    public ChangePasswordServiceImpl(UserPasswordRepository userPasswordRepository) {
-        this.userPasswordRepository = userPasswordRepository;
+    public ChangePasswordServiceImpl(List<ValidationRule> validationRules) {
+        this.validationRules = validationRules;
     }
 
     @Override
     public ChangePasswordResponse changePassword(User user,
                                                  String newPassword) {
-        if (newPassword.length() < 5) {
-           return new ChangePasswordResponse(false, "Less than 5");
-        }
-        if (!containsLetters(newPassword)) {
-            return new ChangePasswordResponse(false, "Not contain letters");
-        }
-        if (!containsNumbers(newPassword)) {
-            return new ChangePasswordResponse(false, "Not contain numbers");
-        }
-
-        List<String> oldPasswords = userPasswordRepository.getLastThreePasswords(user);
-        if (oldPasswords.contains(newPassword)) {
-            return new ChangePasswordResponse(false, "Old password not allowed");
-        }
-
-        return new ChangePasswordResponse(true,null);
-    }
-
-    private boolean containsLetters(String password) {
-        return password.matches(".*[A-Za-z].*");
-    }
-
-    private boolean containsNumbers(String password) {
-        return password.matches(".*[0-9].*");
+        return validationRules.stream()
+            .filter(validationRule -> !validationRule.isValid(user, newPassword))
+                .findFirst()
+                .map(ValidationRule::getErrorMessage)
+                .map(errorMessage -> new ChangePasswordResponse(false, errorMessage))
+                .orElseGet(() -> new ChangePasswordResponse(true, null));
     }
 
 }
