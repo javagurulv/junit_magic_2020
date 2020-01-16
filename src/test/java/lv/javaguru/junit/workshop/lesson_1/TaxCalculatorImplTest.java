@@ -1,23 +1,47 @@
 package lv.javaguru.junit.workshop.lesson_1;
 
+import lv.javaguru.junit.workshop.lesson_2.RateNotFoundException;
 import lv.javaguru.junit.workshop.lesson_2.TaxRate;
 import lv.javaguru.junit.workshop.lesson_2.TaxRateProvider;
 import lv.javaguru.junit.workshop.lesson_2.TaxRateProviderStub;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertEquals;
 
+@RunWith(MockitoJUnitRunner.class)
 public class TaxCalculatorImplTest {
 
+    @Mock
     private TaxRateProvider taxRateProvider;
-    private TaxCalculator calculator;
 
-    @Before
+    @InjectMocks
+    private TaxCalculator calculator = new TaxCalculatorImpl();
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
+    /*@Before
     public void setup() {
         taxRateProvider = Mockito.mock(TaxRateProvider.class);
         calculator = new TaxCalculatorImpl(taxRateProvider);
+    }*/
+
+    @Test
+    public void shouldThrowException() {
+        thrown.expect(RateNotFoundException.class);
+
+        Mockito.when(taxRateProvider.getTaxRate(2000))
+                .thenThrow(new RateNotFoundException(2000));
+
+        calculator.calculateTax(0, 2000);
     }
 
     @Test
